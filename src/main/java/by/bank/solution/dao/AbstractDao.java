@@ -1,6 +1,7 @@
 package by.bank.solution.dao;
 
 import by.bank.solution.connection.ConnectionFactory;
+import by.bank.solution.mapper.RowMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +15,7 @@ public class AbstractDao<T> {
 
     private final Connection connection = ConnectionFactory.create();
 
-    protected List<T> executeQuery(String query, RowMapper<T> mapper, Object... params) throws DaoException {
+    protected List<T> executeQuery(String query, RowMapper<T> mapper, Object... params) throws SQLException {
         try (PreparedStatement statement = createStatement(query, params)) {
             ResultSet resultSet = statement.executeQuery();
             List<T> entities = new ArrayList<>();
@@ -24,7 +25,7 @@ public class AbstractDao<T> {
             }
             return entities;
         } catch (SQLException exception) {
-            throw new DaoException(exception.getMessage(), exception);
+            throw new SQLException(exception.getMessage(), exception);
         }
     }
 
@@ -36,7 +37,7 @@ public class AbstractDao<T> {
         return statement;
     }
 
-    protected Optional<T> executeForSingleResult(String query, RowMapper<T> mapper, Object... params) {
+    protected Optional<T> executeForSingleResult(String query, RowMapper<T> mapper, Object... params) throws SQLException {
         List<T> items = executeQuery(query, mapper, params);
         if (items.size() == 1) {
             return Optional.of(items.get(0));
