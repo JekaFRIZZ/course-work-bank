@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -13,8 +14,4 @@ public class User {
     private Integer id;
     private String login;
     private String password;
-    private BigDecimal accountBalance;
-    private String firstname;
-    private String lastname;
-    private String patronymic;
 }
