@@ -9,33 +9,32 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class UserData {
-    //TODO correct translate each field
     private Integer userId;
     private BigDecimal accountBalance;
-    private String firstname;
-    private String lastname;
+    private String name;
+    private String surname;
     private String patronymic;
     private LocalDateTime birthday;
     private Boolean sex;
-    private String serialPassport;
-    private String numberPassport;
-    private String whoGiven;
-    private LocalDateTime whenGiven;
-    private String identityNumber;
-    private String placeBirthday;
-    private String[] cities;
+    private String passportSeries;
+    private String passportNo;
+    private String issuedBy;
+    private LocalDateTime whenIssued;
+    private String identificationNo;
+    private String placeBirth;
+    private String[] cityActualResidence;
     private String address;
     private String homePhone;
     private String mobilePhone;
     private String email;
-    private String workPlace;
-    private String stuffing;//должность
-    private String[] citiesPropiski;
-    private String addressPropiski;
+    private String placeWork;
+    private String position;
+    private String[] cityResidence;
+    private String addressResidence;
     private String familyStatus;
-    private String grajdanstvo;
-    private String invalidnost;
-    private Boolean pensioner;
+    private String citizenship;
+    private String disability;
+    private Boolean isPensioner;
     private BigDecimal salary;
-    private Boolean warStatus;
+    private Boolean isConscripts;
 }
