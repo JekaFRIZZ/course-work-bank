@@ -2,14 +2,24 @@ package by.bank.solution.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "users_data")
 public class UserData {
-    private Integer userId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User userId;
     private BigDecimal accountBalance;
     private String name;
     private String surname;
@@ -22,14 +32,14 @@ public class UserData {
     private LocalDateTime whenIssued;
     private String identificationNo;
     private String placeBirth;
-    private String[] cityActualResidence;
+    private String cityActualResidence;
     private String address;
     private String homePhone;
     private String mobilePhone;
     private String email;
     private String placeWork;
     private String position;
-    private String[] cityResidence;
+    private String cityResidence;
     private String addressResidence;
     private String familyStatus;
     private String citizenship;

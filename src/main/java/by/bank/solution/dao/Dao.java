@@ -1,19 +1,33 @@
 package by.bank.solution.dao;
 
-import by.bank.solution.connection.ConnectionFactory;
 import by.bank.solution.mapper.RowMapper;
+import org.postgresql.Driver;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class AbstractDao<T> {
+public class Dao<T> {
 
-    private final Connection connection = ConnectionFactory.create();
+    private static final String MYSQL_URL = "jdbc:postgresql://localhost:5432/course-work-bank";
+    private static final String MYSQL_USERNAME = "postgres";
+    private static final String MYSQL_PASSWORD = "12345";
+    private final Connection connection;
+
+    public Dao(){
+        connection = start();
+    }
+
+    private Connection start() {
+        try {
+            DriverManager.registerDriver(new Driver());
+            return DriverManager.getConnection(MYSQL_URL, MYSQL_USERNAME, MYSQL_PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     protected List<T> executeQuery(String query, RowMapper<T> mapper, Object... params) throws SQLException {
         try (PreparedStatement statement = createStatement(query, params)) {
