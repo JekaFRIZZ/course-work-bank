@@ -1,6 +1,7 @@
 package by.bank.solution.dao;
 
 import by.bank.solution.mapper.RowMapper;
+import org.apache.log4j.Logger;
 import org.postgresql.Driver;
 
 import java.sql.*;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class Dao<T> {
+
+    Logger LOGGER = Logger.getLogger(Dao.class);
 
     private static final String MYSQL_URL = "jdbc:postgresql://localhost:5432/course-work-bank";
     private static final String MYSQL_USERNAME = "postgres";
@@ -61,11 +64,12 @@ public class Dao<T> {
         return Optional.empty();
     }
 
-    protected void executeUpdate(String query, Object... params) {
+    protected void executeUpdate(String query, Object... params) throws SQLException {
         try (PreparedStatement statement = createStatement(query, params)) {
             statement.executeUpdate();
         } catch (SQLException e) {
-
+            LOGGER.debug(e);
+            throw new SQLException();
         }
     }
 }

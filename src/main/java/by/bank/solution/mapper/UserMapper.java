@@ -1,5 +1,6 @@
 package by.bank.solution.mapper;
 
+import by.bank.solution.entity.Role;
 import by.bank.solution.entity.User;
 
 import java.sql.ResultSet;
@@ -11,6 +12,8 @@ public class UserMapper implements RowMapper<User> {
         Integer id = resultSet.getInt("id");
         String login = resultSet.getString("login");
         String password = resultSet.getString("password");
-        return new User(id, login, password, null);
+        String roleString = resultSet.getString("role");
+        Role role = Role.valueOf(roleString.toUpperCase());
+        return new User(id, login, password, role);
     }
 }

@@ -27,9 +27,11 @@ public class LoginCommand implements Command {
 
         if(userOptional.isPresent()) {
             User user = userOptional.get();
-            session.setAttribute("username", login);
+            session.setAttribute("id", user.getId());
+            session.setAttribute("login", user.getLogin());
+            session.setAttribute("role", user.getRole());
             return CommandData.forward("index.jsp");
         }
-        return null;
+        return CommandData.forward("WEB-INF/view/main.jsp");
     }
 }

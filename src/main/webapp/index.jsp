@@ -7,5 +7,7 @@
     <input type="password" name="password" placeholder="Enter password">
     <button type="submit">send</button>
 </form>
+<a href="/bank-solution?command=showRegistration">registration</a>
+<a href="/bank-solution?command=showFillUserData">FillUserData</a>
 </body>
 </html>
