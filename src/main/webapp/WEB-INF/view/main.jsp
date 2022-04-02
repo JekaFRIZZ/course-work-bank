@@ -4,6 +4,6 @@
     <title>Title</title>
 </head>
 <body>
-MAIN
+<a href="/bank-solution?command=showFillUserData">FillUserData</a>
 </body>
 </html>

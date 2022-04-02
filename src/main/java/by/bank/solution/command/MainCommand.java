@@ -17,9 +17,11 @@ public class MainCommand {
     public Command createCommand(String command) {
         LOGGER.debug(command);
         switch (command) {
+            case "show_login" :
+                return new ShowCommand("index.jsp");
             case "login":
                 return new LoginCommand(userService);
-            case "showRegistration":
+            case "show_registration":
                 return new ShowCommand("WEB-INF/view/registration.jsp");
             case "registration":
                 return new RegistrationCommand(userService);
