@@ -36,6 +36,7 @@ public class UserService {
             userDao.createUser(login, hashPassword, Role.USER.toString());
         }catch (SQLException e) {
             LOGGER.debug(e);
+            throw new SQLException();
         }
     }
 }
