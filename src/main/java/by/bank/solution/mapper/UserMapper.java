@@ -11,9 +11,10 @@ public class UserMapper implements RowMapper<User> {
     public User map(ResultSet resultSet) throws SQLException {
         Integer id = resultSet.getInt("id");
         String login = resultSet.getString("login");
+        Boolean isUserData = resultSet.getBoolean("is_user_data");
         String password = resultSet.getString("password");
         String roleString = resultSet.getString("role");
         Role role = Role.valueOf(roleString.toUpperCase());
-        return new User(id, login, password, role);
+        return new User(id, login, password, isUserData, role);
     }
 }

@@ -23,11 +23,13 @@ public class User {
     private UserData userData;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private String email;
 
-    public User(Integer id, String login, String password, Role role) {
+    public User(Integer id, String login, String password, Boolean isUserData, Role role) {
         this.id = id;
         this.login = login;
         this.password = password;
+        this.isUserData = isUserData;
         this.role = role;
     }
 }

@@ -39,7 +39,6 @@ public class Controller extends HttpServlet {
     private void common(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         String commandType = req.getParameter("command");
         Command command = mainCommand.createCommand(commandType);
-        command.execute(req, resp);
         String page;
         boolean isRedirect = false;
         try {

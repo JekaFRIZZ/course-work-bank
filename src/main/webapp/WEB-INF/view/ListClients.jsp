@@ -4,9 +4,15 @@
 <html>
 <head>
     <title>Solution</title>
-    <link rel="stylesheet" href="/static/header.css">
 </head>
 <body>
 <jsp:include page="./fragments/header.jsp"></jsp:include>
+<c:forEach var="user" items="${users}">
+    Логин : ${clientModel.login}
+    Имя : ${clientModel.name}
+    Фамилия : ${clientModel.surname}
+    Отчество : ${clientModel.patronymic}
+    Мобильный телефон : ${clientModel.mobilePhone}
+</c:forEach>
 </body>
 </html>

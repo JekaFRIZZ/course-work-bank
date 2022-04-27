@@ -1,6 +1,13 @@
 package by.bank.solution.command;
 
+import by.bank.solution.entity.Phone;
+import by.bank.solution.exception.ValidationException;
+import by.bank.solution.service.PhoneService;
 import by.bank.solution.service.UserDataService;
+import by.bank.solution.service.UserService;
+import by.bank.solution.validator.EmailValidator;
+import by.bank.solution.validator.PhoneValidator;
+import lombok.AllArgsConstructor;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,22 +15,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
+@AllArgsConstructor
 public class FillingUserDataCommand implements Command {
 
     private final UserDataService userDataService;
+    private final UserService userService;
+    private final PhoneService phoneService;
     private final static Logger LOGGER = Logger.getLogger(FillingUserDataCommand.class);
 
-
-    public FillingUserDataCommand(UserDataService userDataService) {
-        this.userDataService = userDataService;
-    }
 
     @Override
     public CommandData execute(HttpServletRequest request, HttpServletResponse response) {
         try {
+            boolean isCreate = true;
             String name = request.getParameter("name");
             String surname = request.getParameter("surname");
             String patronymic = request.getParameter("patronymic");
@@ -36,11 +42,10 @@ public class FillingUserDataCommand implements Command {
             if (!(sexStr.equals("true") || sexStr.equals("false"))) {
                 request.setAttribute("incorrectSex", "The entered sex is incorrect");
                 throw new SQLException();
-            } else  {
+            } else {
                 sex = new Boolean(sexStr);
             }
 
-            String passportSeries = request.getParameter("passportSeries");
             String passportNo = request.getParameter("passportNo");
             String issuedBy = request.getParameter("issuedBy");
 
@@ -52,8 +57,26 @@ public class FillingUserDataCommand implements Command {
             String cityActualResidence = request.getParameter("cityActualResidence");
             String address = request.getParameter("address");
             String homePhone = request.getParameter("homePhone");
-            String mobilePhone = request.getParameter("mobilePhone");//make validation
-            String email = request.getParameter("email");//make validation
+            Optional<Phone> phone = phoneService.findByHomePhone(homePhone);
+            if (phone.isPresent()) {
+                request.setAttribute("homePhoneNotUnique", "Данный домашний номер телефона уже зарегистрирован!");
+            }
+            String mobilePhone = request.getParameter("mobilePhone");
+            phone = phoneService.findByMobilePhone(mobilePhone);
+            if (phone.isPresent()) {
+                isCreate = false;
+                request.setAttribute("mobilePhoneNotUnique", "Данный домашний номер телефона уже зарегистрирован!");
+            }
+            if (!PhoneValidator.validate(mobilePhone)) {
+                isCreate = false;
+                request.setAttribute("phoneIncorrect", "Не верно введён номер телефона!");
+            }
+            String email = request.getParameter("email");
+            if (!EmailValidator.validate(email)) {
+                isCreate = false;
+                request.setAttribute("emailIncorrect", "Не верно введена почта!");
+                throw new ValidationException();
+            }
             String placeWork = request.getParameter("placeWork");
             String position = request.getParameter("position");
             String cityResidence = request.getParameter("cityResidence");
@@ -83,14 +106,21 @@ public class FillingUserDataCommand implements Command {
                 isConscripts = new Boolean(isConscriptsStr);
             }
 
-            Integer id = (Integer) request.getSession().getAttribute("id");
-            userDataService.createUserData(1, name, surname, patronymic,
-                    birthday, sex, passportSeries, passportNo, issuedBy, whenIssued,
-                    identificationNo, placeBirth, cityActualResidence, address,
-                    homePhone, mobilePhone, email, placeWork, position, cityResidence,
-                    addressResidence, familyStatus, citizenship, disability, isPensioner, salary, isConscripts);
+            Integer userId = (Integer) request.getSession().getAttribute("id");
+            String login = (String) request.getSession().getAttribute("login");
+            if (isCreate) {
+                userDataService.createUserData(userId, name, surname, patronymic,
+                        birthday, sex, passportNo, issuedBy, whenIssued,
+                        identificationNo, placeBirth, cityActualResidence, address,
+                        homePhone, mobilePhone, email, placeWork, position, cityResidence,
+                        addressResidence, familyStatus, citizenship, disability, isPensioner, salary, isConscripts, login);
+                userService.updateUserData(userId);
+            }
+        } catch (ValidationException e) {
+            return CommandData.forward("WEB-INF/view/fillUserData.jsp");
         } catch (Exception e) {
             LOGGER.debug(e);
+            request.setAttribute("incorrectData", "Введенные данные некорректны!");
             return CommandData.forward("WEB-INF/view/fillUserData.jsp");
         }
         return CommandData.forward("WEB-INF/view/main.jsp");
