@@ -59,6 +59,7 @@ public class FillingUserDataCommand implements Command {
             String homePhone = request.getParameter("homePhone");
             Optional<Phone> phone = phoneService.findByHomePhone(homePhone);
             if (phone.isPresent()) {
+                isCreate = false;
                 request.setAttribute("homePhoneNotUnique", "Данный домашний номер телефона уже зарегистрирован!");
             }
             String mobilePhone = request.getParameter("mobilePhone");
@@ -72,11 +73,11 @@ public class FillingUserDataCommand implements Command {
                 request.setAttribute("phoneIncorrect", "Не верно введён номер телефона!");
             }
             String email = request.getParameter("email");
-            if (!EmailValidator.validate(email)) {
+            /*if (!EmailValidator.validate(email)) {
                 isCreate = false;
                 request.setAttribute("emailIncorrect", "Не верно введена почта!");
                 throw new ValidationException();
-            }
+            }*/
             String placeWork = request.getParameter("placeWork");
             String position = request.getParameter("position");
             String cityResidence = request.getParameter("cityResidence");
@@ -115,8 +116,11 @@ public class FillingUserDataCommand implements Command {
                         homePhone, mobilePhone, email, placeWork, position, cityResidence,
                         addressResidence, familyStatus, citizenship, disability, isPensioner, salary, isConscripts, login);
                 userService.updateUserData(userId);
+            } else {
+                return CommandData.forward("WEB-INF/view/fillUserData.jsp");
             }
         } catch (ValidationException e) {
+            request.setAttribute("emailIncorrect", "Не верно введена почта!");
             return CommandData.forward("WEB-INF/view/fillUserData.jsp");
         } catch (Exception e) {
             LOGGER.debug(e);

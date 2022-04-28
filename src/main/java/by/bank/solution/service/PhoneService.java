@@ -23,4 +23,8 @@ public class PhoneService {
     public Optional<Phone> findByMobilePhone(String mobilePhone) throws SQLException {
         return phoneDao.findByMobilePhone(mobilePhone);
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        phoneDao.deleteByUserId(userId);
+    }
 }

@@ -33,12 +33,14 @@ public class AuthorizationFilter implements Filter {
         ACCESS.put("logout", Arrays.asList(Role.ADMIN, Role.USER));
         ACCESS.put("show_profile", Arrays.asList(Role.USER));
         ACCESS.put("show_clients", Arrays.asList(Role.ADMIN));
+        ACCESS.put("delete_user", Arrays.asList(Role.ADMIN));
+        ACCESS.put("search_user", Arrays.asList(Role.ADMIN));
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-
+        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
 
         String command = request.getParameter("command");

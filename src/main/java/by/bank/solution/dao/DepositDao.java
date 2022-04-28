@@ -27,4 +27,12 @@ public class DepositDao extends Dao<Deposit> {
         executeUpdate("UPDATE deposit SET status = false WHERE deposit_type_id = ? AND user_id = ?",
                 depositTypeId, userId);
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        executeUpdate("DELETE FROM deposit WHERE user_id =?", userId);
+    }
+
+    public List<Deposit> findAllByUserId(Integer userId) throws SQLException {
+        return executeQuery("SELECT * FROM deposit WHERE user_id = ?", new DepositMapper(), userId);
+    }
 }

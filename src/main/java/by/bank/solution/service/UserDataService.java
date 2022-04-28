@@ -62,4 +62,8 @@ public class UserDataService {
     public void minusAccountBalance(BigDecimal amount, Integer userId) throws SQLException {
         userDataDao.updateAccountBalance(amount, userId);
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        userDataDao.deleteByUserId(userId);
+    }
 }

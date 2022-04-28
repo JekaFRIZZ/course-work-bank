@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientModel {
+    private Integer id;
     private String login;
     private String name;
     private String surname;

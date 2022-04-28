@@ -22,4 +22,8 @@ public class PhoneDao extends Dao<Phone> {
     public Optional<Phone> findByMobilePhone(String mobilePhone) throws SQLException {
         return executeForSingleResult("SELECT * FROM phone WHERE mobile_phone = ?", new PhoneMapper(), mobilePhone);
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        executeUpdate("DELETE FROM phone WHERE user_id = ?", userId);
+    }
 }

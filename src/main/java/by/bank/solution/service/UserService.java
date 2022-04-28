@@ -56,4 +56,8 @@ public class UserService {
     public List<User> findAllUsers() throws SQLException {
         return userDao.findAllUsers();
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        userDao.deleteByUserId(userId);
+    }
 }

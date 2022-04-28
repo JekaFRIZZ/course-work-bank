@@ -18,4 +18,8 @@ public class PassportDao extends Dao<Passport> {
     public Optional<Passport> findByUserId(Integer userId) throws SQLException {
         return executeForSingleResult("SELECT * FROM passport WHERE user_id = ?", new PassportMapper(), userId);
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        executeUpdate("DELETE FROM passport WHERE user_id = ?", userId);
+    }
 }

@@ -29,4 +29,12 @@ public class DepositService {
     public void updateStatusClosed(Integer depositTypeId, Integer userId) throws SQLException {
         depositDao.updateStatusFalse(depositTypeId, userId);
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        depositDao.deleteByUserId(userId);
+    }
+
+    public List<Deposit> findAllByUserId(Integer userId) throws SQLException {
+        return depositDao.findAllByUserId(userId);
+    }
 }

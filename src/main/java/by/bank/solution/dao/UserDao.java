@@ -42,4 +42,8 @@ public class UserDao extends Dao<User> {
     public List<User> findAllUsers() throws SQLException {
         return executeQuery("SELECT * FROM users WHERE role = ?", new UserMapper(), "USER");
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        executeUpdate("DELETE FROM users WHERE id = ?", userId);
+    }
 }

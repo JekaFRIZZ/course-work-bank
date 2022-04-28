@@ -32,7 +32,7 @@ public class LoginCommand implements Command {
             session.setAttribute("role", user.getRole());
             return CommandData.forward("WEB-INF/view/main.jsp");
         }
-        request.setAttribute("incorrectPasswordOrLogin", "Incorrect login or password");
+        request.setAttribute("incorrectPasswordOrLogin", "Неверный логин или пароль!");
         return CommandData.forward("index.jsp");
     }
 }

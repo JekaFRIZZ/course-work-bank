@@ -54,6 +54,10 @@ public class MainCommand {
                 return new ShowProfileCommand(userService, phoneService,userDataService, passportService);
             case "show_clients" :
                 return new ShowClientsCommand(userService, userDataService, phoneService);
+            case "delete_user" :
+                return new DeleteUserCommand(userService, userDataService, phoneService, passportService, depositService);
+            case "search_user" :
+                return new SearchUserCommand(userService, userDataService, phoneService, depositService, depositTypeService);
             case "logout" :
                 return new LogoutCommand();
             default:

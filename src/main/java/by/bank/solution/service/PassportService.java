@@ -19,4 +19,8 @@ public class PassportService {
     public Passport findByUserId(Integer userId) throws SQLException {
         return passportDao.findByUserId(userId).orElse(new Passport());
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        passportDao.deleteByUserId(userId);
+    }
 }

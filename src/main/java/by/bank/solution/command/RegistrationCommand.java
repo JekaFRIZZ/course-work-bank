@@ -30,11 +30,11 @@ public class RegistrationCommand implements Command {
                 userService.registration(login, password);
                 return CommandData.forward(LOGIN_PAGE);
             } else {
-                request.setAttribute("notUniqueUser", "User with this login exists");
+                request.setAttribute("notUniqueUser", "Пользователь с таким логином существует!");
                 return CommandData.forward(REGISTRATION_PAGE);
             }
         }
-        request.setAttribute("passwordNotEquals", "Passwords aren't equal");
+        request.setAttribute("passwordNotEquals", "Пароли не равны");
         return CommandData.forward(REGISTRATION_PAGE);
     }
 

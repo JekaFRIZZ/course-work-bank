@@ -32,4 +32,8 @@ public class UserDataDao extends Dao<UserData> {
     public void updateAccountBalance(BigDecimal amount, Integer userId) throws SQLException {
         executeUpdate("UPDATE users_data SET account_balance = ? WHERE user_id = ?", amount, userId);
     }
+
+    public void deleteByUserId(Integer userId) throws SQLException {
+        executeUpdate("DELETE FROM users_data WHERE user_id = ?", userId);
+    }
 }
